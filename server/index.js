@@ -20,14 +20,20 @@ addMockFunctionsToSchema({
     preserveResolvers: true,
 });
 
-// `context` must be an object and can't be undefined when using connectors
-app.use('/graphql', bodyParser.json(), graphqlExpress({
-    schema: executableSchema,
-}));
-
-app.use('/graphiql', graphiqlExpress({
-    endpointURL: '/graphql',
-}));
+app.use(
+    '/graphql',
+    bodyParser.json(),
+    graphqlExpress({
+        schema: executableSchema,
+    })
+);
+//Middleware to interact in UI , it only renders the UI
+app.use(
+    '/graphiql',
+    graphiqlExpress({
+        endpointURL: '/graphql',
+    })
+);
 
 const graphQLServer = createServer(app);
 
