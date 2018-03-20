@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   Platform,
@@ -17,10 +11,15 @@ import { ApolloLink } from 'apollo-link';
 import { ApolloProvider } from 'react-apollo';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createHttpLink } from 'apollo-link-http';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { ReduxCache, apolloReducer } from 'apollo-cache-redux';
 import ReduxLink from 'apollo-link-redux';
+
+import AppWithNavigationState, {
+  navigationReducer,
+  navigationMiddleware,
+} from "./src/navigation";
 
 const URL = 'localhost:8080';
 //Create a Redux store that holds the complete tree of my app
@@ -29,9 +28,12 @@ const URL = 'localhost:8080';
 const store = createStore(
   combineReducers({
       apollo: apolloReducer,
+      nav: navigationReducer,
   }),
   {}, //initial state
-  composeWithDevTools(),
+  composeWithDevTools(
+      applyMiddleware(navigationMiddleware),
+  ),
 );
 //Set apollo's client data store(cache) to Redux
 const cache = new ReduxCache({store});
@@ -63,17 +65,7 @@ export default class App extends Component {
     return (
       <ApolloProvider client={client}>
         <Provider store={store}>
-          <View style={styles.container}>
-            <Text style={styles.welcome}>
-              Welcome to React Native!
-            </Text>
-            <Text style={styles.instructions}>
-              To get started, edit App.js
-            </Text>
-            <Text style={styles.instructions}>
-                {instructions}
-            </Text>
-          </View>
+          <AppWithNavigationState />
         </Provider>
       </ApolloProvider>
     );
