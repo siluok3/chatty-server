@@ -5,6 +5,8 @@ import { createReduxBoundAddListener, createReactNavigationReduxMiddleware } fro
 import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
+import Groups from './screens/groups.screen';
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -31,7 +33,7 @@ const TestScreen = title => () => (
 );
 //This should create the tabs in the main screen
 const MainScreenNavigator = TabNavigator({
-    Chats: { screen: TestScreen('Chats') },
+    Chats: { screen: Groups },
     Settings: { screen: TestScreen('Settings') },
 }, {
     initialRouteName: 'Chats',
