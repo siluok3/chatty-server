@@ -15,6 +15,7 @@ import {
 import randomColor from 'randomcolor';
 
 import Message from '../components/message.component';
+import MessageInput from '../components/message-input.component';
 import GROUP_QUERY from '../graphql/group.query';
 
 const styles = StyleSheet.create({
@@ -52,6 +53,7 @@ class Messages extends Component {
         };
 
         this.renderItem = this.renderItem.bind(this);
+        this.send = this.send.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -68,6 +70,11 @@ class Messages extends Component {
                 usernameColors,
             });
         }
+    }
+
+    send(text) {
+        // TODO send the actual message
+        console.log(`sending message...${text}`)
     }
 
     keyExtractor = item => item.id;
