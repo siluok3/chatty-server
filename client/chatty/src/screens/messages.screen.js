@@ -1,5 +1,4 @@
 //This will show on the 'Messages' Tab a list of user's groups
-
 import { _ } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -105,6 +104,7 @@ class Messages extends Component {
                     keyExtractor={this.keyExtractor}
                     renderItem={this.renderItem}
                 />
+               <MessageInput send={this.send} />
             </View>
         );
     }

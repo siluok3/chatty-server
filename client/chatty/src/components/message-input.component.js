@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const SendButton = send => (
+const sendButton = send => (
     <Icon.Button
         backgroundColor={'blue'}
         borderRadius={16}
@@ -80,7 +80,7 @@ class MessageInput extends Component {
                         placeholder="What are you thinking?"
                     />
                 </View>
-                <View style={style.sendButtonContainer}>
+                <View style={styles.sendButtonContainer}>
                     {sendButton(this.send)}
                 </View>
             </View>
