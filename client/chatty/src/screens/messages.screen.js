@@ -6,6 +6,7 @@ import { graphql, compose} from 'react-apollo';
 import {
     FlatList,
     ActivityIndicator,
+    KeyboardAvoidingView,
     StyleSheet,
     Text,
     TouchableHighlight,
@@ -99,12 +100,19 @@ class Messages extends Component {
         //return a list of messages for a group
         return(
             <View style={styles.container}>
-                <FlatList
+                <KeyboardAvoidingView
+                    behavior={'position'}
+                    contentContainerStyle={styles.container}
+                    keyboardVerticalOffset={64}
+                    style={styles.container}
+                >
+                    <FlatList
                     data={group.messages.slice().reverse()}
                     keyExtractor={this.keyExtractor}
                     renderItem={this.renderItem}
-                />
-               <MessageInput send={this.send} />
+                    />
+                    <MessageInput send={this.send} />
+                </KeyboardAvoidingView>
             </View>
         );
     }
