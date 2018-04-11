@@ -17,6 +17,7 @@ import randomColor from 'randomcolor';
 import Message from '../components/message.component';
 import MessageInput from '../components/message-input.component';
 import GROUP_QUERY from '../graphql/group.query';
+import CREATE_MESSAGE_MUTATION from '../graphql/create-message.mutation';
 
 const styles = StyleSheet.create({
     container: {
@@ -73,11 +74,14 @@ class Messages extends Component {
     }
 
     send(text) {
-        // TODO send the actual message
-        console.log(`sending message...${text}`)
+        this.props.createMessage({
+            groupId: this.props.navigation.state.params.groupId,
+            userId: 1, //let's fake the user for now
+            text,
+        });
     }
 
-    keyExtractor = item => item.id;
+    keyExtractor = item => item.id.toString();
 
     renderItem = ({ item: message }) => (
         <Message
@@ -119,6 +123,14 @@ class Messages extends Component {
 }
 
 Messages.propTypes = {
+    createMessage: PropTypes.func,
+    navigation: PropTypes.shape({
+        state: PropTypes.shape({
+            params: PropTypes.shape({
+                groupId: PropTypes.number,
+            }),
+        }),
+    }),
     group: PropTypes.shape({
         messages: PropTypes.array,
         users: PropTypes.array,
@@ -137,6 +149,16 @@ const groupQuery =  graphql(GROUP_QUERY, {
     }),
 });
 
+const createMessageMutation = graphql(CREATE_MESSAGE_MUTATION, {
+    props: ({ mutate }) => ({
+        createMessage: ({ text, userId, groupId }) =>
+            mutate({
+                variables: { text, userId, groupId }
+            }),
+    }),
+});
+
 export default compose(
     groupQuery,
+    createMessageMutation
 )(Messages);
